@@ -165,6 +165,7 @@ If using [ProGuard](https://www.guardsquare.com/proguard), add these rules to `a
 | `fallback`             | `boolean`                  | If `true`, it will fall back to using `Image`. This still applies styles and layout as with `FastImage`.                                                                                                         |
 | `tintColor`            | `number` or `string`          | Color tint for all non-transparent pixels in the image.                                                                                                                                                          |
 | `testID`               | `string`                   | Optional ID for testing, such as with [`react-test-renderer`](https://www.npmjs.com/package/react-test-renderer).                                                                                                |
+| `blurRadius`      | `number`                           | Parameter for adjusting the blur in the image.
 
 ### Static Methods
 

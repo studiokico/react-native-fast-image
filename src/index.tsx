@@ -145,6 +145,13 @@ export interface FastImageProps extends AccessibilityProps, ViewProps {
     tintColor?: ColorValue
 
     /**
+     * BlurRadius
+     *
+     * The blur radius of the blur filter added to the image.
+     */
+    blurRadius?: number
+
+    /**
      * A unique identifier for this element to be used in UI Automation testing scripts.
      */
     testID?: string
@@ -182,6 +189,7 @@ function FastImageBase({
     source,
     defaultSource,
     tintColor,
+    blurRadius,
     onLoadStart,
     onProgress,
     onLoad,
@@ -213,6 +221,7 @@ function FastImageBase({
                     onError={onError}
                     onLoadEnd={onLoadEnd}
                     resizeMode={resizeModeProp}
+                    blurRadius={blurRadius}
                 />
                 {children}
             </View>
@@ -258,6 +267,7 @@ function FastImageBase({
                 onFastImageLoadEnd={onLoadEnd}
                 resizeMode={resizeModeProp}
                 transition={transitionProp}
+                blurRadius={blurRadius}
             />
             {children}
         </View>

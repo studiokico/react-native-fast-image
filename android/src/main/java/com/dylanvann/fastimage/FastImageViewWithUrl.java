@@ -1,7 +1,5 @@
 package com.dylanvann.fastimage;
 
-import static com.dylanvann.fastimage.FastImageRequestListener.REACT_ON_ERROR_EVENT;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -25,8 +23,11 @@ import com.facebook.react.uimanager.events.EventDispatcher;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import android.os.Build;
 import android.util.Log;
 
 class FastImageViewWithUrl extends AppCompatImageView {
@@ -34,6 +35,8 @@ class FastImageViewWithUrl extends AppCompatImageView {
     private boolean mNeedsReload = false;
     private ReadableMap mSource = null;
     private Drawable mDefaultSource = null;
+    private int mBlurRadius = 0;
+    private int mBlurRadiusPrevious = 0;
     public GlideUrl glideUrl;
     private String mTransition = "none"; // "none" | "fade"
 
@@ -51,6 +54,12 @@ class FastImageViewWithUrl extends AppCompatImageView {
         mDefaultSource = source;
     }
 
+    public void setBlurRadius(@Nullable Integer blurRadius) {
+        mNeedsReload = true;
+        mBlurRadiusPrevious = mBlurRadius;
+        mBlurRadius = blurRadius == null ? 0 : blurRadius;
+    }
+
     public void setTransition(@Nullable String transition) {
         mNeedsReload = true;
         if (transition == null) {
@@ -66,7 +75,7 @@ class FastImageViewWithUrl extends AppCompatImageView {
 
     @SuppressLint("CheckResult")
     public void onAfterUpdate(
-            @NonNull FastImageViewManager manager, 
+            @NonNull FastImageViewManager manager,
             @Nullable RequestManager requestManager,
             @NonNull Map<String, List<FastImageViewWithUrl>> viewsForUrlsMap) {
         if (!mNeedsReload)
@@ -155,12 +164,16 @@ class FastImageViewWithUrl extends AppCompatImageView {
 
         if (requestManager != null) {
             RequestBuilder<? extends Drawable> builder;
+            Map<String, Object> builderOptions = new HashMap<>();
+            builderOptions.put("view", this);
+            builderOptions.put("blurRadius", mBlurRadius);
+            builderOptions.put("blurRadiusShouldClean", mBlurRadiusPrevious > 0 && mBlurRadius <= 0);
 
             try {
                 builder = requestManager
                         .load(imageSource == null ? null : imageSource.getSourceForLoad())
                         .apply(FastImageViewConverter
-                                .getOptions(context, imageSource, mSource)
+                                .getOptions(context, imageSource, mSource, builderOptions)
                                 .placeholder(mDefaultSource) // show until loaded
                                 .fallback(mDefaultSource)); // null will not be treated as error
 

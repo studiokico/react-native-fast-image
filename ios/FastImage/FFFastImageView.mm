@@ -1,4 +1,6 @@
 #import "FFFastImageView.h"
+#import "FFFastImageBlurTransformation.h"
+#import <CoreImage/CoreImage.h>
 #import <SDWebImage/UIImage+MultiFormat.h>
 #import <SDWebImage/UIView+WebCache.h>
 #import <SDWebImageAVIFCoder/SDImageAVIFCoder.h>
@@ -188,6 +190,13 @@ static NSString * const kFFFastImageDefaultErrorMessage = @"Load failed";
     }
 }
 
+- (void)setBlurRadius:(CGFloat)blurRadius {
+    if (_blurRadius != blurRadius) {
+        _blurRadius = blurRadius;
+        _needsReload = YES;
+    }
+}
+
 - (UIImage*) makeImage: (UIImage*)image withTint: (UIColor*)color {
     UIImage* newImage = [image imageWithRenderingMode: UIImageRenderingModeAlwaysTemplate];
     UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:image.size];
@@ -199,6 +208,12 @@ static NSString * const kFFFastImageDefaultErrorMessage = @"Load failed";
 }
 
 - (void) setImage: (UIImage*)image {
+    if (_blurRadius && _blurRadius > 0) {
+        FFFastImageBlurTransformation *transformation =
+            [[FFFastImageBlurTransformation alloc] initWithRadius:_blurRadius];
+        image = [transformation transform:image];
+    }
+
     if (self.imageColor != nil) {
         super.image = [self makeImage: image withTint: self.imageColor];
     } else {
