@@ -1,5 +1,13 @@
 
 
+## [8.13.0](https://github.com/ds-horizon/react-native-fast-image/compare/v8.12.0...v8.13.0) (2025-11-01)
+
+
+### Features
+
+* Blur support Android & Ios. ([#233](https://github.com/ds-horizon/react-native-fast-image/issues/233)) ([257bc31](https://github.com/ds-horizon/react-native-fast-image/commit/257bc31a4903518357d8563e0564fae695aee72b))
+* svg support ([6798c8a](https://github.com/ds-horizon/react-native-fast-image/commit/6798c8a837b1fe9984fe09e9cfc9adf565105d19))
+
 ## [8.12.0](https://github.com/ds-horizon/react-native-fast-image/compare/v8.11.1...v8.12.0) (2025-09-05)
 
 
