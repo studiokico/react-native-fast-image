@@ -284,12 +284,21 @@ const FastImageComponent: React.ComponentType<FastImageProps> = forwardRef(
 
 FastImageComponent.displayName = 'FastImage'
 
+export type FastImageCacheStatusIOS = 'memory' | 'disk';
+export type FastImageQueryCacheResult =
+  | Record<string, FastImageCacheStatusIOS>   // iOS
+  | Record<string, 'cached'>;                 // Android
+
+export type PreloadAwaitResult = { finished: number; skipped: number };
+
 export interface FastImageStaticProperties {
     resizeMode: typeof resizeMode
     priority: typeof priority
     cacheControl: typeof cacheControl
     transition: typeof transition
     preload: (sources: Source[]) => void
+    preloadAwait(sources: Source[]): Promise<PreloadAwaitResult>
+    queryCache(urls: string[]): Promise<FastImageQueryCacheResult>
     clearMemoryCache: () => Promise<void>
     clearDiskCache: () => Promise<void>
 }
@@ -306,6 +315,10 @@ FastImage.priority = priority
 FastImage.transition = transition
 
 FastImage.preload = (sources: Source[]) => FastImageViewModule.preload(sources)
+
+FastImage.preloadAwait = (sources: Source[]) => FastImageViewModule.preloadAwait(sources)
+
+FastImage.queryCache = (urls: string[]) => FastImageViewModule.queryCache(urls)
 
 FastImage.clearMemoryCache = () => FastImageViewModule.clearMemoryCache()
 
