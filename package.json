@@ -1,4 +1,5 @@
 {
+    "private": true,
     "name": "@d11/react-native-fast-image",
     "version": "8.13.0",
     "description": "🚩 FastImage, performant React Native image component.",
