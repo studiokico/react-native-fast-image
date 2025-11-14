@@ -41,6 +41,7 @@
         "example": "yarn workspace reactnativefastimageexample",
         "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
         "prepack": "yarn build",
+        "prepare": "yarn build",
         "test": "jest",
         "type-check": "tsc --noEmit",
         "release:nightly": "./publish-nightly.sh",
